@@ -15,6 +15,7 @@ import errorHandlerPlugin from "./plugins/errorHandler.js";
 import { healthRoutes } from "./routes/health.js";
 import { connectionsRoutes } from "./routes/connections.js";
 import { queryRoutes } from "./routes/query.js";
+import { introspectionRoutes } from "./routes/introspection.js";
 
 async function main(): Promise<void> {
   await runMigrations();
@@ -66,6 +67,7 @@ async function main(): Promise<void> {
   await app.register(healthRoutes);
   await app.register(connectionsRoutes);
   await app.register(queryRoutes);
+  await app.register(introspectionRoutes);
 
   await app.listen({ port: config.PORT, host: config.HOST });
 }

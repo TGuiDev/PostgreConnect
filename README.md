@@ -53,6 +53,8 @@ nas rotas, então documentação e validação nunca ficam dessincronizadas.
 | DELETE | `/connections/:id`            | Remove um banco cadastrado                   |
 | POST   | `/connections/:id/test`       | Testa conectividade com o banco              |
 | POST   | `/connections/:id/query`      | Executa `{ "sql": "...", "params": [...] }`  |
+| GET    | `/connections/:id/tables`     | Lista tabelas do banco (`?schema=public`)    |
+| GET    | `/connections/:id/tables/:table/columns` | Lista colunas de uma tabela (`?schema=public`) |
 
 Exemplo de cadastro:
 
@@ -79,6 +81,18 @@ curl -X POST https://sua-api.exemplo.com/connections/<id>/query \
   -H "X-API-Key: $API_KEY" \
   -H "Content-Type: application/json" \
   -d '{"sql": "SELECT * FROM pedidos WHERE status = $1", "params": ["pendente"]}'
+```
+
+Exemplo de descoberta de schema (quando você não sabe quais tabelas existem):
+
+```bash
+# lista as tabelas do schema "public" (padrao)
+curl -s "https://sua-api.exemplo.com/connections/<id>/tables" \
+  -H "X-API-Key: $API_KEY"
+
+# lista as colunas de uma tabela especifica
+curl -s "https://sua-api.exemplo.com/connections/<id>/tables/pedidos/columns" \
+  -H "X-API-Key: $API_KEY"
 ```
 
 ## Variáveis de ambiente
